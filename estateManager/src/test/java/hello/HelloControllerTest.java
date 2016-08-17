@@ -4,7 +4,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.estatemanager.application.HelloController;
+import org.estatemanager.application.controller.HelloController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +31,7 @@ public class HelloControllerTest {
 
 	@Test
 	public void getHello() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-				.andExpect(content().string(equalTo("Greetings from Spring Boot!")));
+		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.andExpect(content().string(equalTo("Welcome to the ESTATE MANAGER!")));
 	}
 }

@@ -1,2 +1,5 @@
-hello\HelloControllerIT.class
 hello\HelloControllerTest.class
+hello\testConnetcion.class
+hello\ReactTutorialControllerTest.class
+hello\HelloControllerIT.class
+hello\GetRealestateControllerTest.class
