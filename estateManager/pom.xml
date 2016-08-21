@@ -67,14 +67,20 @@
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<!-- <version>0.0.23</version>-->
+
+				<!-- put all installations to target -->
+				<configuration>
+					<installDirectory>target</installDirectory>
+				</configuration>
+
+				<!-- <version>0.0.23</version> -->
 				<executions>
 					<execution>
 						<id>install node and npm</id>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<phase>initialize</phase>
 						<configuration>
 							<nodeVersion>v6.4.0</nodeVersion>
 							<npmVersion>3.10.6</npmVersion>
@@ -90,8 +96,44 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
+
+
+
+					<execution>
+						<id>npm install react</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>initialize</phase>
+						<configuration>
+							<arguments>install -g react</arguments>
+						</configuration>
+					</execution>
+
+
+
+
+
+					<execution>
+						<id>frontend-step2-install-jsx</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<phase>initialize</phase>
+						<configuration>
+							<arguments>install -g react-tools</arguments>
+						</configuration>
+					</execution>
+
+
+
+
+
+
+
 				</executions>
 			</plugin>
+
 
 		</plugins>
 	</build>
