@@ -14,6 +14,7 @@
 	</parent>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -46,15 +47,11 @@
 			<version>0.2.14</version>
 		</dependency>
 
-
 	</dependencies>
-
-
 
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
 
 	<build>
 		<plugins>
@@ -73,8 +70,8 @@
 					<installDirectory>target</installDirectory>
 				</configuration>
 
-				<!-- <version>0.0.23</version> -->
 				<executions>
+				
 					<execution>
 						<id>install node and npm</id>
 						<goals>
@@ -86,6 +83,7 @@
 							<npmVersion>3.10.6</npmVersion>
 						</configuration>
 					</execution>
+					
 					<execution>
 						<id>npm install</id>
 						<phase>generate-resources</phase>
@@ -96,8 +94,6 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-
-
 
 					<execution>
 						<id>npm install react</id>
@@ -110,10 +106,6 @@
 						</configuration>
 					</execution>
 
-
-
-
-
 					<execution>
 						<id>frontend-step2-install-jsx</id>
 						<goals>
@@ -125,15 +117,8 @@
 						</configuration>
 					</execution>
 
-
-
-
-
-
-
 				</executions>
 			</plugin>
-
 
 		</plugins>
 	</build>
