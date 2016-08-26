@@ -67,7 +67,7 @@
 
 				<!-- put all installations to target -->
 				<configuration>
-					<installDirectory>target</installDirectory>
+					<!--<installDirectory>target</installDirectory>-->
 				</configuration>
 
 				<executions>
@@ -102,7 +102,7 @@
 						</goals>
 						<phase>initialize</phase>
 						<configuration>
-							<arguments>install -g react</arguments>
+							<arguments>install react</arguments>
 						</configuration>
 					</execution>
 
@@ -113,7 +113,7 @@
 						</goals>
 						<phase>initialize</phase>
 						<configuration>
-							<arguments>install -g react-tools</arguments>
+							<arguments>install react-tools</arguments>
 						</configuration>
 					</execution>
 

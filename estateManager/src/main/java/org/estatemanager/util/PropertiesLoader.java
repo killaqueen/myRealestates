@@ -22,7 +22,7 @@ public class PropertiesLoader {
 
 			InputStream input;
 			try {
-				input = new FileInputStream("d:\\temp\\config.properties");
+				input = new FileInputStream("C:\\temp\\config.properties");
 				properties.load(input);
 			} catch (IOException e) {
 				throw new RuntimeException(e);

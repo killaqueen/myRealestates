@@ -149,7 +149,7 @@ var MFTable = React.createClass({
 // --------------------------------------------------------------------------
  ReactDOM
  .render(
- <RealestateListBox url="/api/1.0/realestate/all" pollInterval={300000} />,
+ <RealestateListBox url="/api/1.0/realestate/all" pollInterval={20000} />,
  document.getElementById('content'));
 
 
