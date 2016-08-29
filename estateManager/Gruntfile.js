@@ -19,7 +19,9 @@ module.exports = function(grunt) {
         options: {
            transform: [['babelify', {presets: ['es2015', 'react']}]]
         },        
-        src: ['src/main/webapp/table.js'],
+        //src: ['src/main/webapp/table.js'],
+        src: ['src/main/webapp/managerApp.js'],
+        //src: ['src/main/webapp/modal.js'],
         dest: 'src/main/resources/static/app/app.js',
       }
     }

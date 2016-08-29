@@ -26,20 +26,42 @@ class MyTextCell extends React.Component {
 	}
 
 	class MyTable extends React.Component {
-	  constructor(props) {
+	 
+	 constructor(props) {
 	    super(props);
 
-	    this.state = {
+	    this.state = {myTableData: []};
+	    
+	    /**this.state = {
 	      myTableData: [
 	        {name: 'Rylan', email: 'Angelita_Weimann42@gmail.com'},
 	        {name: 'Amelia', email: 'Dexter.Trantow57@hotmail.com'},
 	        {name: 'Estevan', email: 'Aimee7@hotmail.com'},
 	        {name: 'Florence', email: 'Jarrod.Bernier13@yahoo.com'},
-	        {name: 'Tressa', email: 'Yadira1@hotmail.com'},
+	        {name: 'Tressas', email: 'Yadira1@hotmail.com'},
 	      ],
-	    };
+	    };*/
 	  }
-
+	  
+	loadCommentsFromServer(props) {
+		    $.ajax({
+		      url: props.url,
+		      dataType: 'json',
+		      cache: false,
+		      success: function(data) {
+		    	  this.setState({myTableData: data});
+		      }.bind(this),
+		      error: function(xhr, status, err) {
+		        console.error(this.props.url, status, err.toString());
+		      }.bind(this)
+		    });
+		  }
+	  
+	  componentDidMount(){
+		    this.loadCommentsFromServer(this.props);
+		    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+		  }
+	  
 	  render() {
 	    return (
 	      <Table
@@ -47,23 +69,23 @@ class MyTextCell extends React.Component {
 	        rowHeight={50}
 	        headerHeight={50}
 	        width={1000}
-	        height={500}>
+	        height={300}>
 	        <Column
-	          header={<Cell>Name</Cell>}
+	          header={<Cell>id</Cell>}
 	          cell={
-	            <MyTextCell
+	            <MyLinkCell
 	              data={this.state.myTableData}
-	              field="name"
+	              field="id"
 	            />
 	          }
 	          width={200}
 	        />
 	        <Column
-	          header={<Cell>Email</Cell>}
+	          header={<Cell>Title</Cell>}
 	          cell={
-	            <MyLinkCell
+	            <MyTextCell
 	              data={this.state.myTableData}
-	              field="email"
+	              field="title"
 	            />
 	          }
 	          width={200}
@@ -88,6 +110,6 @@ var MFTable = React.createClass({
 	});
 
 ReactDOM.render(
-		  <MyTable />,
+		  <MyTable url="/api/1.0/realestate/all" pollInterval={20000} />,
 		  document.getElementById('content')
 		);
