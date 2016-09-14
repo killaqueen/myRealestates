@@ -23,7 +23,7 @@ public class GetRealestatesController {
 		Is24Api api = IS24ApiFactory.getApi(properties);
 
 		List<RealEstate> allRealestates = api.getAllRealestates(5);
-		allRealestates.forEach(item -> System.out.println(item));
+		// allRealestates.forEach(item -> System.out.println(item));
 
 		return allRealestates;
 	}

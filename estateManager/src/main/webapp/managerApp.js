@@ -1,9 +1,10 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 const {Table, Column, Cell} = require('fixed-data-table')
+// const Form = JSONSchemaForm.default;
+import Form from "react-jsonschema-form";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { Button, Modal } from 'react-bootstrap';
-
 
 class MyTextCell extends React.Component {
 	  render() {
@@ -43,7 +44,7 @@ class MyUpdateCell extends React.Component {
 	    return (
 	      <Cell >
 	      <div>
-	    	 <EditRealestateModal url={'/api/1.0/realestate/'+link} show={this.state.showEditModal} onHide={lgClose} realestateId={link} />
+	    	 <EditRealestateModal url={'/api/1.0/realestate/internal/ui/'+link} show={this.state.showEditModal} onHide={lgClose} realestateId={link} />
              <Button bsStyle="primary" onClick={()=>this.setState({ showEditModal: true })}>
           edit
         </Button>
@@ -137,20 +138,85 @@ var RealestateOverview = React.createClass({
 	});
 
 
+const uiSchema =  {
+ 		  
+ 		   "descriptionNote": {
+ 			    "ui:widget": "textarea"
+ 			  },
+ 			 "furnishingNote": {
+  			    "ui:widget": "textarea"
+  			  },
+  			"locationNote": {
+ 			    "ui:widget": "textarea"
+ 			  },
+ 			 "otherNote": {
+  			    "ui:widget": "textarea"
+  			  }
+ 		};
+   
+const schema = {
+  		  title: "Todo",
+  		  type: "object",
+  		  required: ["title"],
+  		  properties: {
+  		    title: {type: "string", title: "Title", default: "A new task"},
+  		    done: {type: "boolean", title: "Done?", default: false}
+  		  }
+  		};
+
+const formData = {};
+
+//const onSubmit = ({formData}) => {
+//	
+//	console.log(formData);
+//	$.ajax({
+//		
+//	      url: '/api/1.0/realestate/'+formData.id,
+//	      dataType: 'json',
+//	      contentType: 'application/json',
+//	      type: 'PUT',
+//	      data: JSON.stringify(
+//	    		  
+//	    		  {
+//		    			"type": "CompulsoryAuctionWrapper",
+//		    			"realestate": formData
+//		    		}
+//	    		  ),
+//	      success: function(data) {
+//	        // this.setState({data: data});
+//	      }.bind(this),
+//	      error: function(xhr, status, err) {
+//	        console.error('/api/1.0/realestate/'+formData.id, status, err.toString());
+//	      }.bind(this)
+//	    });
+//}	
+
 class EditRealestateModal extends React.Component{
 	
 	 constructor(props) {
 		    super(props);
-		    this.state = {realestate: []};
+		    //this.state = {schema: [], result : [{realestate:[]}], result:[]};
+		    
+		    this.state= {
+		    		
+		    		"result":{
+			    		"realestate": {
+			    			"type": "",
+			    			"realestate": {},
+			    			"uiSchema": null
+			    		}
+		    		}
+		    	}
 	}
-	
-	loadCommentsFromServer(props) {
+
+	 
+	loadDataFromServer(props) {
 	    $.ajax({
 	      url: props.url,
 	      dataType: 'json',
 	      cache: false,
 	      success: function(data) {
-	    	  this.setState({realestate: data});
+	    	  this.setState({result: data});
 	      }.bind(this),
 	      error: function(xhr, status, err) {
 	        console.error(this.props.url, status, err.toString());
@@ -159,26 +225,64 @@ class EditRealestateModal extends React.Component{
 	  }
 	
 	  componentDidMount(){
-		    this.loadCommentsFromServer(this.props);
-		    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+		    this.loadDataFromServer(this.props);
+		    setInterval(this.loadDataFromServer, this.props.pollInterval);
+		  }
+	  
+	  closeModal(){
+		    console.log("Closing");
 		  }
 	  
 	  render() {
+			 const onSubmit = ({formData}) => {
+					console.log(formData);
+					$.ajax({
+					      url: '/api/1.0/realestate/'+formData.id,
+					      dataType: 'json',
+					      contentType: 'application/json',
+					      type: 'PUT',
+					      data: JSON.stringify(
+					    		  
+					    		  {
+						    			"type": this.state.result.realestate.type,
+						    			"realestate": formData
+						    		}
+					    		  ),
+					      success: function(data) {
+					        // this.setState({data: data});
+					      }.bind(this),
+					      error: function(xhr, status, err) {
+					        console.error('/api/1.0/realestate/'+formData.id, status, err.toString());
+					      }.bind(this)
+					    });
+				}	
+		  
+		  
 	    return (
-	      <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+	    		
+	      <Modal 
+	      onEntered  = { function(){ console.log( "Modal is Shown"); }}
+	      onExit     = { function(){ console.log( "onExit    " ) }}
+	      onExiting  = { function(){ console.log( "onExiting " ) }}
+	      onExited   = { function(){ console.log( "onExited  " ) }}
+	      {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
 	        <Modal.Header closeButton>
-	          <Modal.Title id="contained-modal-title-lg">Modal heading</Modal.Title>
+	          <Modal.Title id="contained-modal-title-lg">Realestate Data</Modal.Title>
 	        </Modal.Header>
 	        <Modal.Body>
-	          <h4>Wrapped Text</h4>
+	        <div>
+	          <Form schema={this.state.result.schema}
+	          uiSchema={uiSchema}
+	          formData={this.state.result.realestate.realestate}
+	          onSubmit={onSubmit}>
 	          
-	          {this.props.realestateId}
-	          {this.state.realestate.title}
+	          <button type="submit">Save</button>
 	          
+	          </Form>
+	        </div>
 	          
 	        </Modal.Body>
 	        <Modal.Footer>
-	          <Button onClick={this.props.onHide}>Save</Button>
 	          <Button onClick={this.props.onHide}>Close</Button>
 	        </Modal.Footer>
 	      </Modal>

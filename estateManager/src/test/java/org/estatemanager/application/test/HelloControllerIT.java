@@ -1,4 +1,4 @@
-package hello;
+package org.estatemanager.application.test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
